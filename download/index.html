@@ -13,32 +13,9 @@
   <body>
     <div class="jumbotron">
       <h1 class="display-4">Hello, My name is Brian Mogavero.</h1>
+      <p class="lead">The current relative humidity is {{hum}}%</p>
+      <p class="lead">The current temperature is {{temp}}</p>
     </div>
-    <div>
-      <marquee direction="let" behavior="scroll" >
-        <h2>{{city}} Weather: {{weather}}</h2>
-      </marquee>
-      <h3>Current {{city}} Temperature: {{tempF}}</h3>
-      <h3>Wind: {{wind}}</h3>
-    </div>
-    <div>
-      <p class="lead">The local relative humidity is {{hum}}%</p>
-      <p class="lead">The local temperature is {{temp}}</p>
-    </div>
-
-
-    <form action="/message" method="post">
-      <div class="form-group">
-        <label for="message">Enter a message:</label>
-        <input type="text" class="form-control">
-      </div>
-      <div class="checkbox">
-        <label><input type="checkbox"> Don't Check! </label>
-      </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-
-
     <div>
       <form action="/turn_on">
         <input class="btn-success btn" type="submit" value="LED ON">
@@ -52,7 +29,7 @@
     <p></p>
     <p></p>
     <p></p>
-    <p></p>
+    <p></p> 
      <div>
       <form action="/buzz_on">
         <input class="btn-success btn btn-lg" type="submit" value="Ring">
