@@ -10,7 +10,7 @@ s = serial.Serial("COM3")
 @app.route("/")
 def main():
     hum, temp, weather, tempFstr, wind, city = get_data()
-    return render_template("index.html", hum=hum, temp=temp, descript=weather, tempF=tempFstr, wind=wind, city=city)
+    return render_template("index2.html", hum=hum, temp=temp, descript=weather, tempF=tempFstr, wind=wind, city=city)
 
 
 @app.route("/message", methods = ["POST"])
@@ -18,11 +18,12 @@ def message():
     message = request.form['message']
     conc_msg = 'B'+message+'\n'
     s.write(conc_msg.encode("ascii"))
-    return redirect(url_for('main2'))
+    return redirect(url_for('main'))
 
 def get_data():
     s.write('A'.encode("ascii"))
     msg = s.readline().decode("ascii")
+    print("got msg: ", msg)
     msg = msg.split(',')
     hum = msg[0]
     temp = msg[1]
