@@ -40,4 +40,10 @@ def get_data():
     city = values["name"]
     return hum, temp, weather, tempFstr, wind, city
 
+@app.route("/data.json", methods=["GET"])
+def json_data():
+    data = {'temp': 72.1,
+            'humidity': 0.36}
+    return jsonify(data)
+
 app.run(host="0.0.0.0", port=8080, debug=True, use_reloader=False)
