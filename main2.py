@@ -1,31 +1,33 @@
-#!usr/bin/python
+#!/usr/bin/python3
 
 from flask import (Flask, render_template, redirect, url_for, request, jsonify)
 import requests
-import serial
+#import serial
 app = Flask(__name__)
-s = serial.Serial("COM3")
+#s = serial.Serial("COM3")
 
 
 @app.route("/")
 def main():
     hum, temp, weather, tempFstr, wind, city = get_data()
-    return render_template("index.html", hum=hum, temp=temp, descript=weather, tempF=tempFstr, wind=wind, city=city)
+    return render_template("index2.html", hum=hum, temp=temp, descript=weather, tempF=tempFstr, wind=wind, city=city)
 
 
 @app.route("/message", methods = ["POST"])
 def message():
     message = request.form['message']
     conc_msg = 'B'+message+'\n'
-    s.write(conc_msg.encode("ascii"))
+ #   s.write(conc_msg.encode("ascii"))
     return redirect(url_for('main2'))
 
 def get_data():
-    s.write('A'.encode("ascii"))
-    msg = s.readline().decode("ascii")
-    msg = msg.split(',')
-    hum = msg[0]
-    temp = msg[1]
+  #  s.write('A'.encode("ascii"))
+  #  msg = s.readline().decode("ascii")
+  #  msg = msg.split(',')
+  #  hum = msg[0]
+  #  temp = msg[1]
+    temp = 50.00
+    hum = 25.00
 
     resp = requests.get(
         'https://api.openweathermap.org/data/2.5/weather?q=Annapolis&appid=12f00a07d488c607af9dd0810ee37290')
@@ -40,4 +42,4 @@ def get_data():
     city = values["name"]
     return hum, temp, weather, tempFstr, wind, city
 
-app.run(host="0.0.0.0", port=8080, debug=True, use_reloader=False)
+app.run(host="0.0.0.0", port=80, debug=True, use_reloader=False)
