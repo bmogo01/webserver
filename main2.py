@@ -9,8 +9,8 @@ s = serial.Serial("COM3")
 
 @app.route("/")
 def main():
-    hum, temp, weather, tempFstr, wind, city = get_data()
-    return render_template("index2.html", hum=hum, temp=temp, descript=weather, tempF=tempFstr, wind=wind, city=city)
+    hum, temp, weather, tempFstr, city = get_data()
+    return render_template("index2.html", hum=hum, temp=temp, weather=weather, tempF=tempFstr, city=city)
 
 
 @app.route("/message", methods = ["POST"])
@@ -37,14 +37,27 @@ def get_data():
     tempK = values['main']['temp']
     tempF = (float(tempK) - 273.15) * (9 / 5) + 32
     tempFstr = "%.2f" % tempF
-    wind = values["wind"]
     city = values["name"]
-    return hum, temp, weather, tempFstr, wind, city
+    return hum, temp, weather, tempFstr, city
 
 @app.route("/data.json", methods=["GET"])
 def json_data():
-    data = {'temp': 72.1,
-            'humidity': 0.36}
+    hum, temp, weather, tempFstr, city = get_data()
+    data = {'Local Humidity': hum,
+            'Local Temperature': temp,
+            'City': city,
+            'City Weather': weather,
+            'City TemperatureF': tempFstr}
     return jsonify(data)
 
-app.run(host="0.0.0.0", port=8080, debug=True, use_reloader=False)
+def get_remote_data():
+    resp = requests.get('http://localhost:5001/data.json')
+    values = resp.json()
+    hum = values['Local Humidity']
+    temp = values['Local Temperature']
+    weather = values['City Weather']
+    tempFstr = values['City TemperatureF']
+    city = values["City"]
+    return hum, temp, weather, tempFstr, city
+
+app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
